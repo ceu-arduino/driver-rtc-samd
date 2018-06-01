@@ -1,0 +1,34 @@
+#include "wclock.ceu"
+#include "rtc-samd.ceu"
+
+var u8 day    = _;
+var u8 month  = _;
+var u8 year   = _;
+
+var u8 second = _;
+var u8 minute = _;
+var u8 hour   = _;
+
+emit RTC_DATE_SET(18,12,31);
+emit RTC_TIME_SET(23,59,55);
+emit RTC_DATE_GET(&year, &month, &day);
+_ceu_arduino_assert(year==18 and month==12 and day==31, 1);
+
+await 10s;
+
+emit RTC_DATE_GET(&year, &month, &day);
+_ceu_arduino_assert(day==1 and month==1 and year==19, 2);
+
+emit RTC_TIME_GET(&hour, &minute, &second);
+#if 0
+{
+    S.begin(9600);
+    delay(3000);
+    S.println(@hour);
+    S.println(@minute);
+    S.println(@second);
+}
+#endif
+_ceu_arduino_assert(hour==0 and minute==0 and second>=5 and second<=6, 3);
+
+_ceu_arduino_assert(0,5);

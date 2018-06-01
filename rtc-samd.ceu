@@ -1,9 +1,9 @@
 input  none RTC_DONE;
 
-//output (u8&? year, u8&? month, u8&? day) RTC_DATE_GET;
+output (&?u8 year, &?u8 month, &?u8 day) RTC_DATE_GET;
 output (u8   year, u8   month, u8   day) RTC_DATE_SET;
 
-//output (u8&? hour, u8&? minute, u8&? second) RTC_TIME_GET;
+output (&?u8 hour, &?u8 minute, &?u8 second) RTC_TIME_GET;
 output (u8   hour, u8  minute,  u8   second) RTC_TIME_SET;
 
 output (u8? hour, u8? minute, u8? second) RTC_ALARM_TIME_SET;

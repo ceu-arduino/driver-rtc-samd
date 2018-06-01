@@ -2,7 +2,25 @@
 
 // Based on source code from <https://www.arduino.cc/en/Reference/RTC>
 
-output (u8 year, u8 month, u8 day) RTC_TIME_SET do
+// RTC_DATE_*
+
+output (&?u8 year, &?u8 month, &?u8 day) RTC_DATE_GET do
+    {
+        RTC->MODE2.READREQ.reg = RTC_READREQ_RREQ;
+        CEU_SAMD_WAIT(RTC->MODE2);
+    }
+    if year? then
+        year!  = {RTC->MODE2.CLOCK.bit.YEAR};
+    end
+    if month? then
+        month! = {RTC->MODE2.CLOCK.bit.MONTH};
+    end
+    if day? then
+        day!   = {RTC->MODE2.CLOCK.bit.DAY};
+    end
+end
+
+output (u8 year, u8 month, u8 day) RTC_DATE_SET do
     {
         RTC->MODE2.CLOCK.bit.YEAR  = @year;
         RTC->MODE2.CLOCK.bit.MONTH = @month;
@@ -11,7 +29,25 @@ output (u8 year, u8 month, u8 day) RTC_TIME_SET do
     }
 end
 
-output (u8 hour, u8 minute, u8 second) RTC_DATE_SET do
+// RTC_DATE_*
+
+output (&?u8 hour, &?u8 minute, &?u8 second) RTC_TIME_GET do
+    {
+        RTC->MODE2.READREQ.reg = RTC_READREQ_RREQ;
+        CEU_SAMD_WAIT(RTC->MODE2);
+    }
+    if hour? then
+        hour!   = {RTC->MODE2.CLOCK.bit.HOUR};
+    end
+    if minute? then
+        minute! = {RTC->MODE2.CLOCK.bit.MINUTE};
+    end
+    if second? then
+        second! = {RTC->MODE2.CLOCK.bit.SECOND};
+    end
+end
+
+output (u8 hour, u8 minute, u8 second) RTC_TIME_SET do
     {
         RTC->MODE2.CLOCK.bit.HOUR   = @hour;
         RTC->MODE2.CLOCK.bit.MINUTE = @minute;
@@ -19,6 +55,8 @@ output (u8 hour, u8 minute, u8 second) RTC_DATE_SET do
         CEU_SAMD_WAIT(RTC->MODE2);
     }
 end
+
+// RTC_ALARM_*
 
 output (u8? hour, u8? minute, u8? second) RTC_ALARM_TIME_SET do
     if hour? then
