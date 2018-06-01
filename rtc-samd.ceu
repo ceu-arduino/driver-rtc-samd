@@ -1,17 +1,13 @@
 input  none RTC_DONE;
-output (u8 year, u8 month, u8 day) RTC_SET_DATE;
-output (u8 hour, u8 minute, u8 second) RTC_SET_TIME;
-output (u8? hour, u8? minute, u8? second) RTC_SET_ALARM_TIME;
 
-native/pre do
-    // Based on source code from <https://www.arduino.cc/en/Reference/RTC>
-    enum {
-        RTC_MATCH_OFF          = RTC_MODE2_MASK_SEL_OFF_Val,          // Never
-        RTC_MATCH_SS           = RTC_MODE2_MASK_SEL_SS_Val,           // Every Minute
-        RTC_MATCH_MMSS         = RTC_MODE2_MASK_SEL_MMSS_Val,         // Every Hour
-        RTC_MATCH_HHMMSS       = RTC_MODE2_MASK_SEL_HHMMSS_Val,       // Every Day
-        RTC_MATCH_DHHMMSS      = RTC_MODE2_MASK_SEL_DDHHMMSS_Val,     // Every Month
-        RTC_MATCH_MMDDHHMMSS   = RTC_MODE2_MASK_SEL_MMDDHHMMSS_Val,   // Every Year
-        RTC_MATCH_YYMMDDHHMMSS = RTC_MODE2_MASK_SEL_YYMMDDHHMMSS_Val  // Once, on a specific date and a specific time
-    };
-end
+//output (u8&? year, u8&? month, u8&? day) RTC_DATE_GET;
+output (u8   year, u8   month, u8   day) RTC_DATE_SET;
+
+//output (u8&? hour, u8&? minute, u8&? second) RTC_TIME_GET;
+output (u8   hour, u8  minute,  u8   second) RTC_TIME_SET;
+
+output (u8? hour, u8? minute, u8? second) RTC_ALARM_TIME_SET;
+output (u8 match) RTC_ALARM_MATCH_SET;
+
+native/const _RTC_MATCH_OFF, _RTC_MATCH_SS, _RTC_MATCH_MMSS, _RTC_MATCH_HHMMSS,
+             _RTC_MATCH_DHHMMSS, _RTC_MATCH_MMDDHHMMSS, _RTC_MATCH_YYMMDDHHMMSS;
