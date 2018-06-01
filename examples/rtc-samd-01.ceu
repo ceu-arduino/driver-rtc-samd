@@ -1,0 +1,17 @@
+#include "rtc-samd.ceu"
+
+emit RTC_SET_DATE(18,6,1);
+emit RTC_SET_TIME(0,0,0);
+emit RTC_SET_ALARM_TIME(_,_,5);
+
+// main program
+{
+    // rtc.enableAlarm(rtc.MATCH_SS);
+    RTC->MODE2.Mode2Alarm[0].MASK.bit.SEL = RTC_MATCH_SS;
+    CEU_SAMD_WAIT(RTC->MODE2);
+}
+
+_pinMode(13, _OUTPUT);
+every RTC_DONE do
+    _digitalWrite(13, not _digitalRead(13));
+end
